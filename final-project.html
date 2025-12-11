@@ -46,37 +46,116 @@
     <section class="page-header">
       <div class="container">
         <h1>Final Project</h1>
-        <p class="page-description">Place for final project renders here</p>
+        <p class="page-description">STL files and previews for the final project</p>
       </div>
     </section>
 
     <section class="project-gallery">
       <div class="container">
-        <div class="gallery-grid">
-          <!-- Add your project renders here -->
-          <div class="gallery-item">
-            <div class="gallery-placeholder">
-              <p>Project Render 1</p>
-              <span>Add your image here</span>
+        <div class="file-grid">
+          <div class="file-card">
+            <div class="file-info">
+              <h3>Assembly1.stl</h3>
+              <p>Main assembly</p>
+              <div class="file-actions">
+                <button class="btn btn-primary view-model" data-model="final-project/Assembly1.stl" data-name="Assembly1.stl">View</button>
+                <a class="btn btn-secondary" href="final-project/Assembly1.stl" download>Download</a>
+              </div>
             </div>
           </div>
-          <div class="gallery-item">
-            <div class="gallery-placeholder">
-              <p>Project Render 2</p>
-              <span>Add your image here</span>
+
+          <div class="file-card">
+            <div class="file-info">
+              <h3>back_console (2).stl</h3>
+              <p>Back console</p>
+              <div class="file-actions">
+                <button class="btn btn-primary view-model" data-model="final-project/back_console%20(2).stl" data-name="back_console (2).stl">View</button>
+                <a class="btn btn-secondary" href="final-project/back_console%20(2).stl" download>Download</a>
+              </div>
             </div>
           </div>
-          <div class="gallery-item">
-            <div class="gallery-placeholder">
-              <p>Project Render 3</p>
-              <span>Add your image here</span>
+
+          <div class="file-card">
+            <div class="file-info">
+              <h3>circle_button.stl</h3>
+              <p>Circle button</p>
+              <div class="file-actions">
+                <button class="btn btn-primary view-model" data-model="final-project/circle_button.stl" data-name="circle_button.stl">View</button>
+                <a class="btn btn-secondary" href="final-project/circle_button.stl" download>Download</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="file-card">
+            <div class="file-info">
+              <h3>circle_button (1).stl</h3>
+              <p>Alternate circle button</p>
+              <div class="file-actions">
+                <button class="btn btn-primary view-model" data-model="final-project/circle_button%20(1).stl" data-name="circle_button (1).stl">View</button>
+                <a class="btn btn-secondary" href="final-project/circle_button%20(1).stl" download>Download</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="file-card">
+            <div class="file-info">
+              <h3>front_console (3).stl</h3>
+              <p>Front console</p>
+              <div class="file-actions">
+                <button class="btn btn-primary view-model" data-model="final-project/front_console%20(3).stl" data-name="front_console (3).stl">View</button>
+                <a class="btn btn-secondary" href="final-project/front_console%20(3).stl" download>Download</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="file-card">
+            <div class="file-info">
+              <h3>oval_button.stl</h3>
+              <p>Oval button</p>
+              <div class="file-actions">
+                <button class="btn btn-primary view-model" data-model="final-project/oval_button.stl" data-name="oval_button.stl">View</button>
+                <a class="btn btn-secondary" href="final-project/oval_button.stl" download>Download</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="file-card wide">
+            <div class="file-info">
+              <h3>ISO Preview</h3>
+              <p>Reference render (PNG)</p>
+              <div class="preview-image">
+                <img src="final-project/iso.png" alt="ISO render preview">
+              </div>
+              <div class="file-actions">
+                <a class="btn btn-secondary" href="final-project/iso.png" download>Download</a>
+              </div>
             </div>
           </div>
         </div>
-        
+
+        <div class="viewer-panel">
+          <div class="viewer-header">
+            <h2 id="viewer-title">Select a model to view</h2>
+            <p>Orbit with mouse drag, scroll to zoom, right-click to pan.</p>
+          </div>
+          <div class="viewer-controls">
+            <div class="control-group">
+              <span class="control-label">Shading:</span>
+              <button class="btn btn-ghost" data-mode="solid">Solid</button>
+              <button class="btn btn-ghost" data-mode="transparent">Transparent</button>
+              <button class="btn btn-ghost" data-mode="wireframe">Wireframe</button>
+            </div>
+            <div class="control-group">
+              <button class="btn btn-ghost" id="toggle-autorotate">Auto-rotate: Off</button>
+              <button class="btn btn-ghost" id="reset-view">Reset View</button>
+            </div>
+          </div>
+          <div id="stl-viewer" class="stl-viewer"></div>
+        </div>
+
         <div class="project-description">
           <h2>Project Overview</h2>
-          <p>Add your project description, methodology, and details here. This is a great place to explain the goals, process, and outcomes of your final project.</p>
+          <p>Interactive viewers for all STL assets plus an ISO preview. Use the buttons above to load a model into the viewer; download links are available for each part.</p>
         </div>
       </div>
     </section>
@@ -89,6 +168,198 @@
   </footer>
   
   <script src="public/js/main.js"></script>
+  <!-- Legacy/global scripts so it works on static hosts without bundlers -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/examples/js/loaders/STLLoader.js"></script>
+  <script>
+
+    const viewerEl = document.getElementById('stl-viewer');
+    const titleEl = document.getElementById('viewer-title');
+    const buttons = document.querySelectorAll('.view-model');
+
+    let renderer, scene, camera, controls, loader;
+    let currentMesh;
+    let autoRotate = false;
+    let materialMode = 'solid';
+    let lastLoaded = { url: null, name: null };
+
+    function initViewer() {
+      const width = viewerEl.clientWidth;
+      const height = viewerEl.clientHeight || 480;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xf5f7fb);
+
+      camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+      camera.position.set(3, 3, 3);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      viewerEl.appendChild(renderer.domElement);
+
+      controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+
+      const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+      const directional = new THREE.DirectionalLight(0xffffff, 0.6);
+      directional.position.set(5, 10, 7.5);
+      scene.add(ambient, directional);
+
+      const grid = new THREE.GridHelper(10, 20, 0xcccccc, 0xeeeeee);
+      scene.add(grid);
+
+      loader = new THREE.STLLoader();
+
+      animate();
+      window.addEventListener('resize', onResize);
+
+      // Load assembly by default
+      loadModel('final-project/Assembly1.stl', 'Assembly1.stl');
+    }
+
+    function clearMesh() {
+      if (currentMesh) {
+        scene.remove(currentMesh);
+        currentMesh.geometry.dispose();
+        currentMesh.material.dispose();
+        currentMesh = null;
+      }
+    }
+
+    function loadModel(url, name) {
+      titleEl.textContent = `Loading ${name}...`;
+      clearMesh();
+
+      loader.load(
+        url,
+        geometry => {
+          const material = new THREE.MeshStandardMaterial({ color: 0x2563eb, metalness: 0.05, roughness: 0.85 });
+          currentMesh = new THREE.Mesh(geometry, material);
+          geometry.computeBoundingBox();
+          geometry.computeBoundingSphere();
+
+          currentMesh.castShadow = true;
+          currentMesh.receiveShadow = true;
+          scene.add(currentMesh);
+
+          fitCameraToObject(currentMesh);
+          titleEl.textContent = name;
+          lastLoaded = { url, name };
+          applyMaterial(materialMode);
+        },
+        undefined,
+        error => {
+          console.error('Error loading STL:', error);
+          titleEl.textContent = 'Failed to load model';
+        }
+      );
+    }
+
+    function applyMaterial(mode) {
+      if (!currentMesh) return;
+      materialMode = mode;
+      const mat = currentMesh.material;
+      mat.wireframe = false;
+      mat.transparent = false;
+      mat.opacity = 1;
+      switch (mode) {
+        case 'transparent':
+          mat.transparent = true;
+          mat.opacity = 0.45;
+          break;
+        case 'wireframe':
+          mat.wireframe = true;
+          break;
+        default:
+          break;
+      }
+      mat.needsUpdate = true;
+      updateModeButtons(mode);
+    }
+
+    function updateModeButtons(mode) {
+      document.querySelectorAll('.viewer-controls [data-mode]').forEach(btn => {
+        if (btn.getAttribute('data-mode') === mode) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    function fitCameraToObject(object) {
+      const box = new THREE.Box3().setFromObject(object);
+      const size = box.getSize(new THREE.Vector3());
+      const center = box.getCenter(new THREE.Vector3());
+
+      const maxSize = Math.max(size.x, size.y, size.z);
+      const fitHeightDistance = maxSize / (2 * Math.atan((Math.PI * camera.fov) / 360));
+      const fitWidthDistance = fitHeightDistance / camera.aspect;
+      const distance = Math.max(fitHeightDistance, fitWidthDistance);
+
+      const direction = new THREE.Vector3(1, 1, 1).normalize();
+      camera.position.copy(center.clone().add(direction.multiplyScalar(distance * 1.4)));
+      camera.near = distance / 100;
+      camera.far = distance * 100;
+      camera.updateProjectionMatrix();
+      controls.target.copy(center);
+      controls.update();
+    }
+
+    function onResize() {
+      if (!renderer || !camera) return;
+      const width = viewerEl.clientWidth;
+      const height = viewerEl.clientHeight || 480;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (autoRotate && currentMesh) {
+        currentMesh.rotation.y += 0.01;
+      }
+      controls?.update();
+      renderer?.render(scene, camera);
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const url = btn.getAttribute('data-model');
+        const name = btn.getAttribute('data-name') || 'Model';
+        loadModel(url, name);
+      });
+    });
+
+    // Mode buttons
+    document.querySelectorAll('.viewer-controls [data-mode]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.getAttribute('data-mode');
+        applyMaterial(mode);
+      });
+    });
+
+    // Auto-rotate toggle
+    const autoBtn = document.getElementById('toggle-autorotate');
+    autoBtn.addEventListener('click', () => {
+      autoRotate = !autoRotate;
+      autoBtn.textContent = `Auto-rotate: ${autoRotate ? 'On' : 'Off'}`;
+    });
+
+    // Reset view
+    document.getElementById('reset-view').addEventListener('click', () => {
+      if (currentMesh) {
+        fitCameraToObject(currentMesh);
+      } else if (lastLoaded.url) {
+        loadModel(lastLoaded.url, lastLoaded.name);
+      }
+    });
+
+    initViewer();
+  </script>
 </body>
 </html>
 
